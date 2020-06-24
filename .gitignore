@@ -4,5 +4,9 @@ node_modules/
 build/
 tmp/*
 !tmp/.gitkeep
-
+dist/
 yarn.lock
+
+.env
+ormconfig.json
+coverage/

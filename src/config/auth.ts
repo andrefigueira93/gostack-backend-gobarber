@@ -1,6 +1,13 @@
+interface IJWTConfig {
+  jwt: {
+    secret: string;
+    expiresIn: string;
+  };
+}
+
 export default {
   jwt: {
-    secret: 'bd8529f76ea295cd03ff84ebb4dd6813',
+    secret: process.env.APP_SECRET,
     expiresIn: '1d',
   },
-};
+} as IJWTConfig;

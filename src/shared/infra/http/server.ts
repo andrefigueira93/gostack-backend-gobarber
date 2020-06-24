@@ -1,7 +1,10 @@
 import 'reflect-metadata';
+import 'dotenv/config';
+
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
+import { errors } from 'celebrate';
 import routes from '@shared/infra/http/routes';
 import AppError from '@shared/errors/AppError';
 import uploadConfig from '@config/upload';
@@ -13,9 +16,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/files', express.static(uploadConfig.uploadsFolder));
 app.use(routes);
 
-app.use('/files', express.static(uploadConfig.directory));
+app.use(errors());
 
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   if (err instanceof AppError) {
@@ -28,6 +32,7 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   return response.status(500).json({
     status: 'error',
     message: 'Internal Server Error',
+    info: err.message,
   });
 });
 
